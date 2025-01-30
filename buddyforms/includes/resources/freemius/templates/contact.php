@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
- if ( ! defined( 'ABSPATH' ) ) { exit; } wp_enqueue_script( 'jquery' ); wp_enqueue_script( 'json2' ); fs_enqueue_local_script( 'postmessage', 'nojquery.ba-postmessage.js' ); fs_enqueue_local_script( 'fs-postmessage', 'postmessage.js' ); fs_enqueue_local_style( 'fs_checkout', '/admin/common.css' ); $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $context_params = array( 'plugin_id' => $fs->get_id(), 'plugin_public_key' => $fs->get_public_key(), 'plugin_version' => $fs->get_plugin_version(), ); if ( $fs->is_registered() ) { $context_params = array_merge( $context_params, FS_Security::instance()->get_context_params( $fs->get_site(), time(), 'contact' ) ); } $query_params = array_merge( $_GET, array_merge( $context_params, array( 'plugin_version' => $fs->get_plugin_version(), 'wp_login_url' => wp_login_url(), 'site_url' => Freemius::get_unfiltered_site_url(), ) ) ); $view_params = array( 'id' => $VARS['id'], 'page' => strtolower( $fs->get_text_inline( 'Contact', 'contact' ) ), ); fs_require_once_template('secure-https-header.php', $view_params); $has_tabs = $fs->_add_tabs_before_content(); if ( $has_tabs ) { $query_params['tabs'] = 'true'; } ?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } wp_enqueue_script( 'jquery' ); wp_enqueue_script( 'json2' ); fs_enqueue_local_script( 'postmessage', 'nojquery.ba-postmessage.js' ); fs_enqueue_local_script( 'fs-postmessage', 'postmessage.js' ); fs_enqueue_local_style( 'fs_checkout', '/admin/common.css' ); $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $query_params = FS_Contact_Form_Manager::instance()->get_query_params( $fs ); $view_params = array( 'id' => $VARS['id'], 'page' => strtolower( $fs->get_text_inline( 'Contact', 'contact' ) ), ); fs_require_once_template('secure-https-header.php', $view_params); $has_tabs = $fs->_add_tabs_before_content(); if ( $has_tabs ) { $query_params['tabs'] = 'true'; } ?>
 	<div id="fs_contact" class="wrap fs-section fs-full-size-wrapper">
 		<div id="fs_frame"></div>
 		<script type="text/javascript">
@@ -32,4 +32,4 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		</script>
 	</div>
 <?php
- if ( $has_tabs ) { $fs->_add_tabs_after_content(); } $params = array( 'page' => 'contact', 'module_id' => $fs->get_id(), 'module_type' => $fs->get_module_type(), 'module_slug' => $slug, 'module_version' => $fs->get_plugin_version(), ); fs_require_template( 'powered-by.php', $params );
+ if ( $has_tabs ) { $fs->_add_tabs_after_content(); } 

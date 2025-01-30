@@ -381,7 +381,7 @@ $is_user_change_supported = ( ! $fs->is_addon() || ! $fs->get_parent_instance()-
 				        licenseKey = $otherLicenseKey.val();
                     } else {
 				        if ( ! hasLicensesDropdown ) {
-                            licenseID = $availableLicenseKey.data( 'id' );
+                            licenseID = $availableLicenseKey.data( 'id' ).toString();
                         } else {
                             licenseID = $licensesDropdown.val();
                         }
