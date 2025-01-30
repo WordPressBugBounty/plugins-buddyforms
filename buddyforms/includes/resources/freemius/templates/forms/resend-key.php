@@ -1,73 +1,33 @@
 <?php
-	/**
-	 * @package     Freemius
-	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since       1.2.0
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-	 * @var array $VARS
-	 * @var Freemius $fs
-	 */
-	$fs   = freemius( $VARS['id'] );
-
-	$slug = $fs->get_slug();
-
-	$send_button_text          = fs_text_inline( 'Send License Key', 'send-license-key', $slug );
-	$cancel_button_text        = fs_text_inline( 'Cancel', 'cancel', $slug );
-	$email_address_placeholder = fs_esc_attr_inline( 'Email address', 'email-address', $slug );
-	$other_text                = fs_text_inline( 'Other', 'other', $slug );
-
-	$is_freemium = $fs->is_freemium();
-
-	$send_button_text_html = esc_html($send_button_text);
-
-	$button_html = <<< HTML
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $send_button_text = fs_text_inline( 'Send License Key', 'send-license-key', $slug ); $cancel_button_text = fs_text_inline( 'Cancel', 'cancel', $slug ); $email_address_placeholder = fs_esc_attr_inline( 'Email address', 'email-address', $slug ); $other_text = fs_text_inline( 'Other', 'other', $slug ); $is_freemium = $fs->is_freemium(); $send_button_text_html = esc_html($send_button_text); $button_html = <<< HTML
 <div class="button-container">
     <a href="#" class="button button-primary button-send-license-key" tabindex="2">{$send_button_text_html}</a>
 </div>
 HTML;
-
-	if ( $is_freemium ) {
-		$current_user          = Freemius::_get_current_wp_user();
-		$email                 = $current_user->user_email;
-		$esc_email             = esc_attr( $email );
-		$form_html      = <<< HTML
+if ( $is_freemium ) { $current_user = Freemius::_get_current_wp_user(); $email = $current_user->user_email; $esc_email = esc_attr( $email ); $form_html = <<< HTML
 <div class="email-address-container">
     <label><input name="email-address" type="radio" checked="checked" tabindex="1" value="{$esc_email}"> {$email}</label>
     <label><input name="email-address" type="radio" tabindex="1" value="other">{$other_text}: <input class="email-address" type="text" placeholder="{$email_address_placeholder}"></label>
 </div>
 {$button_html}
 HTML;
-	} else {
-		$email = '';
-		$form_html      = <<< HTML
+} else { $email = ''; $form_html = <<< HTML
 {$button_html}
 <div class="email-address-container">
     <input class="email-address" type="text" placeholder="{$email_address_placeholder}" tabindex="1">
 </div>
 HTML;
-	}
-
-    $message_above_input_field = $fs->is_only_premium() ?
-        fs_esc_html_inline( "Enter the email address you've used during the purchase and we will resend you the license key.", 'ask-for-upgrade-email-address-premium-only', $slug ) :
-        fs_esc_html_inline( "Enter the email address you've used for the upgrade below and we will resend you the license key.", 'ask-for-upgrade-email-address', $slug );
-
-	$modal_content_html = <<< HTML
+} $message_above_input_field = $fs->is_only_premium() ? fs_esc_html_inline( "Enter the email address you've used during the purchase and we will resend you the license key.", 'ask-for-upgrade-email-address-premium-only', $slug ) : fs_esc_html_inline( "Enter the email address you've used for the upgrade below and we will resend you the license key.", 'ask-for-upgrade-email-address', $slug ); $modal_content_html = <<< HTML
     <div class="notice notice-error inline license-resend-message"><p></p></div>
     <p>{$message_above_input_field}</p>
     <div class="input-container">
         {$form_html}
     </div>
 HTML;
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 	(function ($) {
 		$(document).ready(function () {

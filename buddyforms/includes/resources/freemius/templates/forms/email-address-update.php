@@ -1,28 +1,8 @@
 <?php
-	/**
-	 * @package   Freemius
-	 * @copyright Copyright (c) 2015, Freemius, Inc.
-	 * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     *
-     * @author Leo Fajardo (@leorw)
-	 * @since 2.5.0
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-	 * @var array $VARS
-	 */
-	$fs   = freemius( $VARS['id'] );
-	$slug = $fs->get_slug();
-
-	$user                  = $fs->get_user();
-	$current_email_address = $user->email;
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $user = $fs->get_user(); $current_email_address = $user->email; fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 ( function ( $ ) {
 	var modalHtml                             =
@@ -38,11 +18,7 @@
             + '             <p><?php fs_echo_inline( 'Enter the new email address', 'enter-new-email-address' , $slug ) ?>:</p>'
             + '	    	    <input type="text" class="fs-new-email-address-input" />'
             + '             <div class="fs-email-addresses-ownership-options" style="display: none">'
-            + '                 <p><?php echo sprintf(
-                                    fs_esc_html_inline( 'Are both %s and %s your email addresses?', 'email-addresses-ownership-confirmation' , $slug ),
-                                    sprintf( '<strong>%s</strong>', $current_email_address ),
-                                    '<strong class="fs-new-email-address"></strong>'
-                                ) ?></p>'
+            + '                 <p><?php echo sprintf( fs_esc_html_inline( 'Are both %s and %s your email addresses?', 'email-addresses-ownership-confirmation' , $slug ), sprintf( '<strong>%s</strong>', $current_email_address ), '<strong class="fs-new-email-address"></strong>' ) ?></p>'
             + '                 <ul>'
             + '                     <li>'
             + '                         <label>'
@@ -53,47 +29,30 @@
             + '                     <li>'
             + '                         <label>'
             + '                             <span><input type="radio" name="email-addresses-ownership" value="current"/></span>'
-            + '                             <div><?php echo sprintf(
-                                                fs_esc_html_inline( "%s is my client's email address", 'client-email-address-confirmation', $slug ),
-                                                '<strong class="fs-new-email-address"></strong>'
-                                            ) ?></span>'
+            + '                             <div><?php echo sprintf( fs_esc_html_inline( "%s is my client's email address", 'client-email-address-confirmation', $slug ), '<strong class="fs-new-email-address"></strong>' ) ?></span>'
             + '                         </label>'
             + '                     </li>'
             + '                     <li>'
             + '                         <label>'
             + '                             <span><input type="radio" name="email-addresses-ownership" value="new"/></span>'
-            + '                             <div><?php echo sprintf(
-                                                fs_esc_html_inline( "%s is my email address", 'email-address-ownership-confirmation', $slug ),
-                                                '<strong class="fs-new-email-address"></strong>'
-                                            ) ?></span>'
+            + '                             <div><?php echo sprintf( fs_esc_html_inline( "%s is my email address", 'email-address-ownership-confirmation', $slug ), '<strong class="fs-new-email-address"></strong>' ) ?></span>'
             + '                         </label>'
             + '                     </li>'
             + '                 </ul>'
             + '             </div>'
             + '             <div class="fs-assets-transfership-options" style="display: none">'
-            + '                 <p><?php echo sprintf(
-                                    fs_esc_html_inline( 'Would you like to merge %s into %s?', 'accounts-merge-confirmation' , $slug ),
-                                    sprintf( '<strong>%s</strong>', $current_email_address ),
-                                    '<strong class="fs-new-email-address"></strong>'
-                                ) ?></p>'
+            + '                 <p><?php echo sprintf( fs_esc_html_inline( 'Would you like to merge %s into %s?', 'accounts-merge-confirmation' , $slug ), sprintf( '<strong>%s</strong>', $current_email_address ), '<strong class="fs-new-email-address"></strong>' ) ?></p>'
             + '                 <ul>'
             + '                     <li>'
             + '                         <label>'
             + '                             <span><input type="radio" name="assets-transfer-type" value="all" /></span>'
-            + '                             <span><?php echo sprintf(
-                                                fs_esc_html_inline( 'Yes - move all my data and assets from %s to %s', 'move-all-data-and-assets-into-new-account', $slug ),
-                                                sprintf( '<strong>%s</strong>', $current_email_address ),
-                                                '<strong class="fs-new-email-address"></strong>'
-                                            ) ?></span>'
+            + '                             <span><?php echo sprintf( fs_esc_html_inline( 'Yes - move all my data and assets from %s to %s', 'move-all-data-and-assets-into-new-account', $slug ), sprintf( '<strong>%s</strong>', $current_email_address ), '<strong class="fs-new-email-address"></strong>' ) ?></span>'
             + '                         </label>'
             + '                     </li>'
             + '                     <li>'
             + '                         <label>'
             + '                             <span><input type="radio" name="assets-transfer-type" value="plugin" /></span>'
-            + '                             <span><?php echo sprintf(
-                                                fs_esc_html_inline( "No - only move this site's data to %s", 'move-only-plugin-data-into-new-account', $slug ),
-                                                '<strong class="fs-new-email-address"></strong>'
-                                            ) ?></span>'
+            + '                             <span><?php echo sprintf( fs_esc_html_inline( "No - only move this site's data to %s", 'move-only-plugin-data-into-new-account', $slug ), '<strong class="fs-new-email-address"></strong>' ) ?></span>'
             + '                         </label>'
             + '                     </li>'
             + '                 </ul>'

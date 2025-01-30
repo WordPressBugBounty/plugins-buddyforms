@@ -1,47 +1,13 @@
 <?php
-	/**
-	 * @package     Freemius
-	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since       1.2.0
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-	 * @var array $VARS
-	 * @var Freemius $fs
-	 */
-	$fs   = freemius( $VARS['id'] );
-	$slug = $fs->get_slug();
-
-	$message_header  = sprintf(
-		/* translators: %1$s: Number of trial days; %2$s: Plan name; */
-		fs_text_inline( 'You are 1-click away from starting your %1$s-day free trial of the %2$s plan.', 'start-trial-prompt-header', $slug ),
-		'<span class="var-trial_period"></span>',
-		'<span class="var-plan_title"></span>'
-	);
-	$message_content = sprintf(
-		/* translators: %s: Link to freemius.com */
-		fs_text_inline( 'For compliance with the WordPress.org guidelines, before we start the trial we ask that you opt in with your user and non-sensitive site information, allowing the %s to periodically send data to %s to check for version updates and to validate your trial.', 'start-trial-prompt-message', $slug ),
-		$fs->get_module_type(),
-		sprintf(
-			'<a href="%s" target="_blank" rel="noopener">%s</a>',
-			'https://freemius.com',
-			'freemius.com'
-		)
-	);
-
-	$modal_content_html = <<< HTML
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $message_header = sprintf( fs_text_inline( 'You are 1-click away from starting your %1$s-day free trial of the %2$s plan.', 'start-trial-prompt-header', $slug ), '<span class="var-trial_period"></span>', '<span class="var-plan_title"></span>' ); $message_content = sprintf( fs_text_inline( 'For compliance with the WordPress.org guidelines, before we start the trial we ask that you opt in with your user and non-sensitive site information, allowing the %s to periodically send data to %s to check for version updates and to validate your trial.', 'start-trial-prompt-message', $slug ), $fs->get_module_type(), sprintf( '<a href="%s" target="_blank" rel="noopener">%s</a>', 'https://freemius.com', 'freemius.com' ) ); $modal_content_html = <<< HTML
 	<div class="notice notice-error inline"><p></p></div>
 	<h3>{$message_header}</h3>
 	<p>{$message_content}</p>
 HTML;
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 	(function ($) {
 		$(document).ready(function () {

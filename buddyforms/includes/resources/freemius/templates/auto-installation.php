@@ -1,82 +1,8 @@
 <?php
-	/**
-	 * @package     Freemius
-	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since       1.2.1.5
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-	 * @var array    $VARS
-	 * @var Freemius $fs
-	 */
-    $slug      = $VARS['slug'];
-    $plugin_id = $VARS['target_module_id'];
-
-    $fs = freemius( $VARS['id'] );
-
-	$action = $fs->is_tracking_allowed() ?
-		'stop_tracking' :
-		'allow_tracking';
-
-	$title = $fs->get_plugin_title();
-
-	if ( $plugin_id != $fs->get_id() ) {
-		$addon = $fs->get_addon( $plugin_id );
-
-		if ( is_object( $addon ) ) {
-			$title = $addon->title . ' ' . fs_text_inline( 'Add-On', 'addon', $slug );
-		}
-	}
-
-	$plugin_title = sprintf(
-		'<strong>%s</strong>',
-		esc_html( $title )
-	);
-
-	$sec_countdown  = 30;
-	$countdown_html = sprintf(
-		esc_js(
-			/* translators: %s: Number of seconds */
-			fs_text_inline( '%s sec', 'x-sec', $slug )
-		),
-		sprintf( '<span class="fs-countdown">%s</span>', $sec_countdown )
-	);
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-	fs_enqueue_local_style( 'fs_common', '/admin/common.css' );
-
-	$params      = array();
-	$loader_html = fs_get_template( 'ajax-loader.php', $params );
-
-	// Pass unique auto installation URL if WP_Filesystem is needed.
-	$install_url = $fs->_get_sync_license_url(
-		$plugin_id,
-		true,
-		array( 'auto_install' => 'true' )
-	);
-
-
-	ob_start();
-
-	$method = ''; // Leave blank so WP_Filesystem can populate it as necessary.
-
-	$credentials = request_filesystem_credentials(
-		esc_url_raw( $install_url ),
-		$method,
-		false,
-		WP_PLUGIN_DIR,
-		array()
-	);
-
-	$credentials_form = ob_get_clean();
-
-	$require_credentials = ! empty( $credentials_form );
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $slug = $VARS['slug']; $plugin_id = $VARS['target_module_id']; $fs = freemius( $VARS['id'] ); $action = $fs->is_tracking_allowed() ? 'stop_tracking' : 'allow_tracking'; $title = $fs->get_plugin_title(); if ( $plugin_id != $fs->get_id() ) { $addon = $fs->get_addon( $plugin_id ); if ( is_object( $addon ) ) { $title = $addon->title . ' ' . fs_text_inline( 'Add-On', 'addon', $slug ); } } $plugin_title = sprintf( '<strong>%s</strong>', esc_html( $title ) ); $sec_countdown = 30; $countdown_html = sprintf( esc_js( fs_text_inline( '%s sec', 'x-sec', $slug ) ), sprintf( '<span class="fs-countdown">%s</span>', $sec_countdown ) ); fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); fs_enqueue_local_style( 'fs_common', '/admin/common.css' ); $params = array(); $loader_html = fs_get_template( 'ajax-loader.php', $params ); $install_url = $fs->_get_sync_license_url( $plugin_id, true, array( 'auto_install' => 'true' ) ); ob_start(); $method = ''; $credentials = request_filesystem_credentials( esc_url_raw( $install_url ), $method, false, WP_PLUGIN_DIR, array() ); $credentials_form = ob_get_clean(); $require_credentials = ! empty( $credentials_form ); ?>
 <div class="fs-modal fs-modal-auto-install">
 	<div class="fs-modal-dialog">
 		<div class="fs-modal-header">
@@ -89,16 +15,7 @@
 					<?php echo $credentials_form ?>
 				</div>
 			<?php else : ?>
-				<p class="fs-installation-notice"><?php echo sprintf(
-						fs_esc_html_inline( 'An automated download and installation of %s (paid version) from %s will start in %s. If you would like to do it manually - click the cancellation button now.', 'installing-in-n', $slug ),
-						$plugin_title,
-						sprintf(
-							'<a href="%s" target="_blank" rel="noopener">%s</a>',
-							'https://freemius.com',
-							'freemius.com'
-						),
-						$countdown_html
-					) ?></p>
+				<p class="fs-installation-notice"><?php echo sprintf( fs_esc_html_inline( 'An automated download and installation of %s (paid version) from %s will start in %s. If you would like to do it manually - click the cancellation button now.', 'installing-in-n', $slug ), $plugin_title, sprintf( '<a href="%s" target="_blank" rel="noopener">%s</a>', 'https://freemius.com', 'freemius.com' ), $countdown_html ) ?></p>
 			<?php endif ?>
 			<p class="fs-installing"
 			   style="display: none"><?php echo sprintf( fs_esc_html_inline( 'The installation process has started and may take a few minutes to complete. Please wait until it is done - do not refresh this page.', 'installing-module-x', $slug ), $plugin_title ) ?></p>

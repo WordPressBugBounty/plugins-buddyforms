@@ -1,29 +1,8 @@
 <?php
-	/**
-	 * @package     Freemius
-	 * @copyright   Copyright (c) 2016, Freemius, Inc.
-	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since       1.2.0
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var array $VARS
-     * @var Freemius $fs
-     */
-    $fs = freemius( $VARS['id'] );
-
-    /**
-     * @var FS_Payment[] $payments
-     */
-    $payments = $VARS['payments'];
-
-	$slug = $fs->get_slug();
-
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $payments = $VARS['payments']; $slug = $fs->get_slug(); ?>
 <div class="postbox">
 	<div id="fs_payments">
 		<h3><span class="dashicons dashicons-paperclip"></span> <?php fs_esc_html_echo_inline( 'Payments', 'payments', $slug ) ?></h3>

@@ -1,61 +1,8 @@
 <?php
-    /**
-     * @package     Freemius
-     * @copyright   Copyright (c) 2015, Freemius, Inc.
-     * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     * @since       1.2.2.7
-     */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var array    $VARS
-     * @var Freemius $fs
-     */
-    $fs = freemius( $VARS['id'] );
-
-    $slug = $fs->get_slug();
-
-    $menu_items = $fs->get_menu_items();
-
-    $show_settings_with_tabs = $fs->show_settings_with_tabs();
-
-    $tabs = array();
-    foreach ( $menu_items as $priority => $items ) {
-        foreach ( $items as $item ) {
-            if ( ! $item['show_submenu'] ) {
-                $submenu_name = ('wp-support-forum' === $item['menu_slug']) ?
-                    'support' :
-                    $item['menu_slug'];
-
-                if ( 'pricing' === $submenu_name && ! $fs->is_pricing_page_visible() ) {
-                    continue;
-                }
-
-                if ( ! $show_settings_with_tabs || ! $fs->is_submenu_item_visible( $submenu_name, true ) ) {
-                    continue;
-                }
-            }
-
-            $url   = $fs->_get_admin_page_url( $item['menu_slug'] );
-            $title = $item['menu_title'];
-
-            $tab = array(
-                'label' => $title,
-                'href'  => $url,
-                'slug'  => $item['menu_slug'],
-            );
-
-            if ( 'pricing' === $item['menu_slug'] && $fs->is_in_trial_promotion() ) {
-                $tab['href'] .= '&trial=true';
-            }
-
-            $tabs[] = $tab;
-        }
-    }
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $menu_items = $fs->get_menu_items(); $show_settings_with_tabs = $fs->show_settings_with_tabs(); $tabs = array(); foreach ( $menu_items as $priority => $items ) { foreach ( $items as $item ) { if ( ! $item['show_submenu'] ) { $submenu_name = ('wp-support-forum' === $item['menu_slug']) ? 'support' : $item['menu_slug']; if ( 'pricing' === $submenu_name && ! $fs->is_pricing_page_visible() ) { continue; } if ( ! $show_settings_with_tabs || ! $fs->is_submenu_item_visible( $submenu_name, true ) ) { continue; } } $url = $fs->_get_admin_page_url( $item['menu_slug'] ); $title = $item['menu_title']; $tab = array( 'label' => $title, 'href' => $url, 'slug' => $item['menu_slug'], ); if ( 'pricing' === $item['menu_slug'] && $fs->is_in_trial_promotion() ) { $tab['href'] .= '&trial=true'; } $tabs[] = $tab; } } ?>
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
@@ -174,11 +121,7 @@
                 }
             }
 
-            <?php if (is_string( $freemius_context_page ) && in_array( $freemius_context_page, array(
-            'pricing',
-            'contact',
-            'checkout'
-        ) )) : ?>
+            <?php if (is_string( $freemius_context_page ) && in_array( $freemius_context_page, array( 'pricing', 'contact', 'checkout' ) )) : ?>
             // Add margin to the upper section of the tabs to give extra space for the HTTPS header.
             // @todo This code assumes that the wrapper style is fully loaded, if there's a stylesheet that is not loaded via the HTML head, it may cause unpredicted margin-top.
             var $tabsWrap = $tabsWrapper.parents('.wrap');

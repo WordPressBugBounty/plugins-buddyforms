@@ -1,49 +1,13 @@
 <?php
-	/**
-	 * @package   Freemius
-	 * @copyright Copyright (c) 2015, Freemius, Inc.
-	 * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since     2.3.1
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-     * @var array $VARS
-     *
-	 * @var Freemius $fs
-	 */
-	$fs                       = freemius( $VARS['id'] );
-	$slug                     = $fs->get_slug();
-    $unique_affix             = $fs->get_unique_affix();
-    $last_license_user_id     = $fs->get_last_license_user_id();
-    $has_last_license_user_id = FS_User::is_valid_id( $last_license_user_id );
-    
-	$message_above_input_field = ( ! $has_last_license_user_id ) ?
-		fs_text_inline( 'Please enter the license key to enable the debug mode:', 'submit-developer-license-key-message', $slug ) :
-		sprintf(
-			fs_text_inline( 'To enter the debug mode, please enter the secret key of the license owner (UserID = %d), which you can find in your "My Profile" section of your User Dashboard:', 'submit-addon-developer-key-message', $slug ),
-			$last_license_user_id
-		);
-
-    $processing_text          = ( fs_esc_js_inline( 'Processing', 'processing', $slug ) . '...' );
-    $submit_button_text       = fs_text_inline( 'Submit', 'submit', $slug );
-    $debug_license_link_text  = fs_esc_html_inline( 'Start Debug', 'start-debug-license', $slug );
-    $license_or_user_key_text = ( ! $has_last_license_user_id ) ?
-        fs_text_inline( 'License key', 'license-key' , $slug ) :
-        fs_text_inline( 'User key', 'user-key' , $slug );
-    $input_html               = "<input class='fs-license-or-user-key' type='password' placeholder='{$license_or_user_key_text}' tabindex='1' />";
-
-	$modal_content_html = <<< HTML
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $unique_affix = $fs->get_unique_affix(); $last_license_user_id = $fs->get_last_license_user_id(); $has_last_license_user_id = FS_User::is_valid_id( $last_license_user_id ); $message_above_input_field = ( ! $has_last_license_user_id ) ? fs_text_inline( 'Please enter the license key to enable the debug mode:', 'submit-developer-license-key-message', $slug ) : sprintf( fs_text_inline( 'To enter the debug mode, please enter the secret key of the license owner (UserID = %d), which you can find in your "My Profile" section of your User Dashboard:', 'submit-addon-developer-key-message', $slug ), $last_license_user_id ); $processing_text = ( fs_esc_js_inline( 'Processing', 'processing', $slug ) . '...' ); $submit_button_text = fs_text_inline( 'Submit', 'submit', $slug ); $debug_license_link_text = fs_esc_html_inline( 'Start Debug', 'start-debug-license', $slug ); $license_or_user_key_text = ( ! $has_last_license_user_id ) ? fs_text_inline( 'License key', 'license-key' , $slug ) : fs_text_inline( 'User key', 'user-key' , $slug ); $input_html = "<input class='fs-license-or-user-key' type='password' placeholder='{$license_or_user_key_text}' tabindex='1' />"; $modal_content_html = <<< HTML
 	<div class="notice notice-error inline license-or-user-key-submission-message"><p></p></div>
 	<p>{$message_above_input_field}</p>
 	{$input_html}
 HTML;
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 ( function( $ ) {
 	$( document ).ready( function() {

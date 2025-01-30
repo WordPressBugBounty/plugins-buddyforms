@@ -1,31 +1,8 @@
 <?php
-    /**
-     * @package     Freemius
-     * @copyright   Copyright (c) 2022, Freemius, Inc.
-     * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     * @since       2.5.1
-     */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var array $VARS
-     * @var array $permission {
-     * @type string $id
-     * @type bool   $default
-     * @type string $icon-class
-     * @type bool   $optional
-     * @type string $label
-     * @type string $tooltip
-     * @type string $desc
-     * }
-     */
-    $permission = $VARS;
-
-    $is_permission_on = ( ! isset( $permission['default'] ) || true === $permission['default'] );
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $permission = $VARS; $is_permission_on = ( ! isset( $permission['default'] ) || true === $permission['default'] ); ?>
 <li id="fs_permission_<?php echo esc_attr( $permission['id'] ) ?>" data-permission-id="<?php echo esc_attr( $permission['id'] ) ?>"
     class="fs-permission fs-<?php echo esc_attr( $permission['id'] ); ?><?php echo ( ! $is_permission_on ) ? ' fs-disabled' : ''; ?>">
     <i class="<?php echo esc_attr( $permission['icon-class'] ); ?>"></i>

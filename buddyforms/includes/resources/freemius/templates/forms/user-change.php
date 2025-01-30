@@ -1,50 +1,19 @@
 <?php
-    /**
-    * @package   Freemius
-    * @copyright Copyright (c) 2015, Freemius, Inc.
-    * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-    * @since     2.3.2
-    */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var array    $VARS
-     *
-     * @var Freemius $fs
-     */
-    $fs   = freemius( $VARS['id'] );
-    $slug = $fs->get_slug();
-
-    /**
-     * @var object[] $license_owners
-     */
-    $license_owners = $VARS['license_owners'];
-
-    $change_user_message                  = fs_text_inline( 'By changing the user, you agree to transfer the account ownership to:', 'change-user--message', $slug );
-    $header_title                         = fs_text_inline( 'Change User', 'change-user', $slug );
-    $user_change_button_text              = fs_text_inline( 'I Agree - Change User', 'agree-change-user', $slug );
-    $other_text                           = fs_text_inline( 'Other', 'other', $slug );
-    $enter_email_address_placeholder_text = fs_text_inline( 'Enter email address', 'enter-email-address', $slug );
-
-    $user_change_options_html = <<< HTML
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $license_owners = $VARS['license_owners']; $change_user_message = fs_text_inline( 'By changing the user, you agree to transfer the account ownership to:', 'change-user--message', $slug ); $header_title = fs_text_inline( 'Change User', 'change-user', $slug ); $user_change_button_text = fs_text_inline( 'I Agree - Change User', 'agree-change-user', $slug ); $other_text = fs_text_inline( 'Other', 'other', $slug ); $enter_email_address_placeholder_text = fs_text_inline( 'Enter email address', 'enter-email-address', $slug ); $user_change_options_html = <<< HTML
     <div class="fs-user-change-options-container">
         <table>
             <tbody>
 HTML;
-
-        foreach ( $license_owners as $license_owner ) {
-            $user_change_options_html .= <<< HTML
+foreach ( $license_owners as $license_owner ) { $user_change_options_html .= <<< HTML
                 <tr class="fs-email-address-container">
                     <td><input id="fs_email_address_{$license_owner->id}" type="radio" name="fs_email_address" value="{$license_owner->id}"></td>
                     <td><label for="fs_email_address_{$license_owner->id}">{$license_owner->email}</label></td>
                 </tr>
 HTML;
-        }
-
-        $user_change_options_html .= <<< HTML
+} $user_change_options_html .= <<< HTML
                 <tr>
                     <td><input id="fs_other_email_address_radio" type="radio" name="fs_email_address" value="other"></td>
                     <td class="fs-other-email-address-container">
@@ -60,15 +29,12 @@ HTML;
         </table>
     </div>
 HTML;
-
-    $modal_content_html = <<< HTML
+$modal_content_html = <<< HTML
     <div class="notice notice-error inline fs-change-user-result-message"><p></p></div>
     <p>{$change_user_message}</p>
     {$user_change_options_html}
 HTML;
-
-    fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 (function( $ ) {
     $( document ).ready(function() {

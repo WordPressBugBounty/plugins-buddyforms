@@ -1,31 +1,8 @@
 <?php
-    /**
-     * @package     Freemius
-     * @copyright   Copyright (c) 2015, Freemius, Inc.
-     * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     * @since       1.1.1
-     */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    global $fs_active_plugins;
-
-    $fs_options = FS_Options::instance( WP_FS__ACCOUNTS_OPTION_NAME, true );
-
-    $off_text = fs_text_x_inline( 'Off', 'as turned off' );
-    $on_text  = fs_text_x_inline( 'On', 'as turned on' );
-
-    // For some reason css was missing
-    fs_enqueue_local_style( 'fs_common', '/admin/common.css' );
-
-    $has_any_active_clone = false;
-
-    $is_multisite = is_multisite();
-
-    $auto_off_timestamp = wp_next_scheduled( 'fs_debug_turn_off_logging_hook' ) * 1000;
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } global $fs_active_plugins; $fs_options = FS_Options::instance( WP_FS__ACCOUNTS_OPTION_NAME, true ); $off_text = fs_text_x_inline( 'Off', 'as turned off' ); $on_text = fs_text_x_inline( 'On', 'as turned on' ); fs_enqueue_local_style( 'fs_common', '/admin/common.css' ); $has_any_active_clone = false; $is_multisite = is_multisite(); $auto_off_timestamp = wp_next_scheduled( 'fs_debug_turn_off_logging_hook' ) * 1000; ?>
 <h1><?php echo fs_text_inline( 'Freemius Debug' ) . ' - ' . fs_text_inline( 'SDK' ) . ' v.' . $fs_active_plugins->newest->version ?></h1>
 <div>
     <!-- Debugging Switch -->
@@ -177,11 +154,7 @@
         </td>
         <td>
             <?php
-                $fs_debug_page_url = 'admin.php?page=freemius&fs_action=allow_clone_resolution_notice';
-                $fs_debug_page_url = fs_is_network_admin() ?
-                    network_admin_url( $fs_debug_page_url ) :
-                    admin_url( $fs_debug_page_url );
-            ?>
+ $fs_debug_page_url = 'admin.php?page=freemius&fs_action=allow_clone_resolution_notice'; $fs_debug_page_url = fs_is_network_admin() ? network_admin_url( $fs_debug_page_url ) : admin_url( $fs_debug_page_url ); ?>
             <a href="<?php echo wp_nonce_url( $fs_debug_page_url, 'fs_allow_clone_resolution_notice' ) ?>" class="button button-primary">Resolve Clone(s)</a>
         </td>
     </tr>
@@ -229,40 +202,7 @@
     })(jQuery);
 </script>
 <?php
-    if ( ! defined( 'FS_API__ADDRESS' ) ) {
-        define( 'FS_API__ADDRESS', '://api.freemius.com' );
-    }
-    if ( ! defined( 'FS_API__SANDBOX_ADDRESS' ) ) {
-        define( 'FS_API__SANDBOX_ADDRESS', '://sandbox-api.freemius.com' );
-    }
-
-    $defines = array(
-        array(
-            'key' => 'WP_FS__REMOTE_ADDR',
-            'val' => WP_FS__REMOTE_ADDR,
-        ),
-        array(
-            'key' => 'WP_FS__ADDRESS_PRODUCTION',
-            'val' => WP_FS__ADDRESS_PRODUCTION,
-        ),
-        array(
-            'key' => 'FS_API__ADDRESS',
-            'val' => FS_API__ADDRESS,
-        ),
-        array(
-            'key' => 'FS_API__SANDBOX_ADDRESS',
-            'val' => FS_API__SANDBOX_ADDRESS,
-        ),
-        array(
-            'key' => 'WP_FS__DIR',
-            'val' => WP_FS__DIR,
-        ),
-        array(
-            'key' => 'wp_using_ext_object_cache()',
-            'val' => wp_using_ext_object_cache() ? 'true' : 'false',
-        ),
-    )
-?>
+ if ( ! defined( 'FS_API__ADDRESS' ) ) { define( 'FS_API__ADDRESS', '://api.freemius.com' ); } if ( ! defined( 'FS_API__SANDBOX_ADDRESS' ) ) { define( 'FS_API__SANDBOX_ADDRESS', '://sandbox-api.freemius.com' ); } $defines = array( array( 'key' => 'WP_FS__REMOTE_ADDR', 'val' => WP_FS__REMOTE_ADDR, ), array( 'key' => 'WP_FS__ADDRESS_PRODUCTION', 'val' => WP_FS__ADDRESS_PRODUCTION, ), array( 'key' => 'FS_API__ADDRESS', 'val' => FS_API__ADDRESS, ), array( 'key' => 'FS_API__SANDBOX_ADDRESS', 'val' => FS_API__SANDBOX_ADDRESS, ), array( 'key' => 'WP_FS__DIR', 'val' => WP_FS__DIR, ), array( 'key' => 'wp_using_ext_object_cache()', 'val' => wp_using_ext_object_cache() ? 'true' : 'false', ), ) ?>
 <br>
 <table class="widefat">
     <thead>
@@ -272,11 +212,8 @@
     </tr>
     </thead>
     <tbody>
-    <?php $alternate = false;
-        foreach ( $defines as $p ) : ?>
-            <tr<?php if ( $alternate ) {
-                echo ' class="alternate"';
-            } ?>>
+    <?php $alternate = false; foreach ( $defines as $p ) : ?>
+            <tr<?php if ( $alternate ) { echo ' class="alternate"'; } ?>>
                 <td><?php echo $p['key'] ?></td>
                 <td><?php echo $p['val'] ?></td>
             </tr>
@@ -297,9 +234,7 @@
     <tbody>
     <?php foreach ( $fs_active_plugins->plugins as $sdk_path => $data ) : ?>
         <?php $is_active = ( WP_FS__SDK_VERSION == $data->version ) ?>
-        <tr<?php if ( $is_active ) {
-            echo ' style="background: #E6FFE6; font-weight: bold"';
-        } ?>>
+        <tr<?php if ( $is_active ) { echo ' style="background: #E6FFE6; font-weight: bold"'; } ?>>
             <td><?php echo $data->version ?></td>
             <td><?php echo $sdk_path ?></td>
             <td><?php echo $data->plugin_path ?></td>
@@ -310,11 +245,7 @@
 </table>
 
 <?php
-    $module_types = array(
-        WP_FS__MODULE_TYPE_PLUGIN,
-        WP_FS__MODULE_TYPE_THEME
-    );
-?>
+ $module_types = array( WP_FS__MODULE_TYPE_PLUGIN, WP_FS__MODULE_TYPE_THEME ); ?>
 <?php $active_modules_by_id = array() ?>
 <?php foreach ( $module_types as $module_type ) : ?>
     <?php $modules = fs_get_entities( $fs_options->get_option( $module_type . 's' ), FS_Plugin::get_class_name() ) ?>
@@ -341,74 +272,23 @@
             <tbody>
             <?php foreach ( $modules as $slug => $data ) : ?>
                 <?php
-                if ( WP_FS__MODULE_TYPE_THEME !== $module_type ) {
-                    $is_active = is_plugin_active( $data->file );
-                } else {
-                    $current_theme = wp_get_theme();
-                    $is_active     = ( $current_theme->stylesheet === $data->file );
-
-                    if ( ! $is_active && is_child_theme() ) {
-                        $parent_theme = $current_theme->parent();
-
-                        $is_active = ( ( $parent_theme instanceof WP_Theme ) && $parent_theme->stylesheet === $data->file );
-                    }
-                }
-                ?>
+ if ( WP_FS__MODULE_TYPE_THEME !== $module_type ) { $is_active = is_plugin_active( $data->file ); } else { $current_theme = wp_get_theme(); $is_active = ( $current_theme->stylesheet === $data->file ); if ( ! $is_active && is_child_theme() ) { $parent_theme = $current_theme->parent(); $is_active = ( ( $parent_theme instanceof WP_Theme ) && $parent_theme->stylesheet === $data->file ); } } ?>
                 <?php
-                    $fs = null;
-                    if ( $is_active ) {
-                        $fs = freemius( $data->id );
-
-                        $active_modules_by_id[ $data->id ] = true;
-                    }
-                ?>
-                <tr<?php if ( $is_active ) {
-                    $has_api_connectivity = $fs->has_api_connectivity();
-
-                    if ( true === $has_api_connectivity && $fs->is_on() ) {
-                        echo ' style="background: #E6FFE6; font-weight: bold"';
-                    } else {
-                        echo ' style="background: #ffd0d0; font-weight: bold"';
-                    }
-                } ?>>
+ $fs = null; if ( $is_active ) { $fs = freemius( $data->id ); $active_modules_by_id[ $data->id ] = true; } ?>
+                <tr<?php if ( $is_active ) { $has_api_connectivity = $fs->has_api_connectivity(); if ( true === $has_api_connectivity && $fs->is_on() ) { echo ' style="background: #E6FFE6; font-weight: bold"'; } else { echo ' style="background: #ffd0d0; font-weight: bold"'; } } ?>>
                     <td><?php echo $data->id ?></td>
                     <td><?php echo $slug ?></td>
                     <td><?php echo $data->version ?></td>
                     <td><?php echo $data->title ?></td>
-                    <td<?php if ( $is_active && true !== $has_api_connectivity ) {
-                        echo ' style="color: red; text-transform: uppercase;"';
-                    } ?>><?php if ( $is_active ) {
-                            echo esc_html( true === $has_api_connectivity ?
-                                fs_text_x_inline( 'Connected', 'as connection was successful' ) :
-                                ( false === $has_api_connectivity ?
-                                    fs_text_x_inline( 'Blocked', 'as connection blocked' ) :
-                                    fs_text_x_inline( 'Unknown', 'API connectivity state is unknown' ) )
-                            );
-                        } ?></td>
-                    <td<?php if ( $is_active && ! $fs->is_on() ) {
-                        echo ' style="color: red; text-transform: uppercase;"';
-                    } ?>><?php if ( $is_active ) {
-                            echo esc_html( $fs->is_on() ?
-                                $on_text :
-                                $off_text
-                            );
-                        } ?></td>
+                    <td<?php if ( $is_active && true !== $has_api_connectivity ) { echo ' style="color: red; text-transform: uppercase;"'; } ?>><?php if ( $is_active ) { echo esc_html( true === $has_api_connectivity ? fs_text_x_inline( 'Connected', 'as connection was successful' ) : ( false === $has_api_connectivity ? fs_text_x_inline( 'Blocked', 'as connection blocked' ) : fs_text_x_inline( 'Unknown', 'API connectivity state is unknown' ) ) ); } ?></td>
+                    <td<?php if ( $is_active && ! $fs->is_on() ) { echo ' style="color: red; text-transform: uppercase;"'; } ?>><?php if ( $is_active ) { echo esc_html( $fs->is_on() ? $on_text : $off_text ); } ?></td>
                     <td><?php echo $data->file ?></td>
                     <td><?php echo $data->public_key ?></td>
                     <?php if ( $is_multisite ) : ?>
                         <?php
-                        $network_blog_id = null;
-                        $network_user    = null;
-
-                        if ( is_object( $fs ) ) {
-                            $network_blog_id = $fs->get_network_install_blog_id();
-                            $network_user    = $fs->get_network_user();
-                        }
-                        ?>
+ $network_blog_id = null; $network_user = null; if ( is_object( $fs ) ) { $network_blog_id = $fs->get_network_install_blog_id(); $network_user = $fs->get_network_user(); } ?>
                         <td><?php echo is_numeric( $network_blog_id ) ? $network_blog_id : '' ?></td>
-                        <td><?php if ( is_object( $network_user ) ) {
-                                echo $network_user->email;
-                            } ?></td>
+                        <td><?php if ( is_object( $network_user ) ) { echo $network_user->email; } ?></td>
                     <?php endif ?>
                     <td>
                         <?php if ( $is_active ) : ?>
@@ -443,20 +323,9 @@
 <?php endforeach ?>
 <?php foreach ( $module_types as $module_type ) : ?>
     <?php
-    /**
-     * @var array $VARS
-     * @var array[string]FS_Site|array[string]FS_Site[] $sites_map
-     */
-    $sites_map = $VARS[ $module_type . '_sites' ];
-
-    $all_plans = false;
-    ?>
+ $sites_map = $VARS[ $module_type . '_sites' ]; $all_plans = false; ?>
     <?php if ( is_array( $sites_map ) && count( $sites_map ) > 0 ) : ?>
-        <h2><?php echo esc_html( sprintf(
-            /* translators: %s: 'plugin' or 'theme' */
-                fs_text_inline( '%s Installs', 'module-installs' ),
-                ( WP_FS__MODULE_TYPE_PLUGIN === $module_type ? fs_text_inline( 'Plugin', 'plugin' ) : fs_text_inline( 'Theme', 'theme' ) )
-            ) ) ?> / <?php fs_esc_html_echo_x_inline( 'Sites', 'like websites', 'sites' ) ?></h2>
+        <h2><?php echo esc_html( sprintf( fs_text_inline( '%s Installs', 'module-installs' ), ( WP_FS__MODULE_TYPE_PLUGIN === $module_type ? fs_text_inline( 'Plugin', 'plugin' ) : fs_text_inline( 'Theme', 'theme' ) ) ) ) ?> / <?php fs_esc_html_echo_x_inline( 'Sites', 'like websites', 'sites' ) ?></h2>
         <table id="fs_<?php echo $module_type ?>_installs" class="widefat">
             <thead>
             <tr>
@@ -479,24 +348,7 @@
             <?php foreach ( $sites_map as $slug => $sites ) : ?>
                 <?php foreach ( $sites as $site ) : ?>
                     <?php
-                        $blog_id = $is_multisite ?
-                            $site->blog_id :
-                            null;
-
-                        if ( is_null( $site_url ) || $is_multisite ) {
-                            $site_url = Freemius::get_unfiltered_site_url(
-                                $blog_id,
-                                true,
-                                true
-                            );
-                        }
-
-                        $is_active_clone = ( $site->is_clone( $site_url ) && isset( $active_modules_by_id[ $site->plugin_id ] ) );
-
-                        if ( $is_active_clone ) {
-                            $has_any_active_clone = true;
-                        }
-                    ?>
+ $blog_id = $is_multisite ? $site->blog_id : null; if ( is_null( $site_url ) || $is_multisite ) { $site_url = Freemius::get_unfiltered_site_url( $blog_id, true, true ); } $is_active_clone = ( $site->is_clone( $site_url ) && isset( $active_modules_by_id[ $site->plugin_id ] ) ); if ( $is_active_clone ) { $has_any_active_clone = true; } ?>
                     <tr>
                         <td>
                             <?php echo $site->id ?>
@@ -512,37 +364,10 @@
                         <td><?php echo $site->user_id ?></td>
                         <td><?php echo !empty($site->license_id) ? $site->license_id : '' ?></td>
                         <td><?php
-                                $plan_name = '';
-                                if ( FS_Plugin_Plan::is_valid_id( $site->plan_id ) ) {
-                                    if ( false === $all_plans ) {
-                                        $option_name = 'plans';
-                                        if ( WP_FS__MODULE_TYPE_PLUGIN !== $module_type ) {
-                                            $option_name = $module_type . '_' . $option_name;
-                                        }
-
-                                        $all_plans = fs_get_entities( $fs_options->get_option( $option_name, array() ), FS_Plugin_Plan::get_class_name() );
-                                    }
-
-                                    foreach ( $all_plans[ $slug ] as $plan ) {
-                                        $plan_id = Freemius::_decrypt( $plan->id );
-
-                                        if ( $site->plan_id == $plan_id ) {
-                                            $plan_name = Freemius::_decrypt( $plan->name );
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                echo $plan_name;
-                            ?></td>
+ $plan_name = ''; if ( FS_Plugin_Plan::is_valid_id( $site->plan_id ) ) { if ( false === $all_plans ) { $option_name = 'plans'; if ( WP_FS__MODULE_TYPE_PLUGIN !== $module_type ) { $option_name = $module_type . '_' . $option_name; } $all_plans = fs_get_entities( $fs_options->get_option( $option_name, array() ), FS_Plugin_Plan::get_class_name() ); } foreach ( $all_plans[ $slug ] as $plan ) { $plan_id = Freemius::_decrypt( $plan->id ); if ( $site->plan_id == $plan_id ) { $plan_name = Freemius::_decrypt( $plan->name ); break; } } } echo $plan_name; ?></td>
                         <td><?php echo $site->public_key ?></td>
                         <td><?php
-                                $plugin_storage = FS_Storage::instance( $module_type, $slug );
-
-                                echo $plugin_storage->is_whitelabeled ?
-                                    FS_Plugin_License::mask_secret_key_for_html( $site->secret_key ) :
-                                    esc_html( $site->secret_key );
-                        ?></td>
+ $plugin_storage = FS_Storage::instance( $module_type, $slug ); echo $plugin_storage->is_whitelabeled ? FS_Plugin_License::mask_secret_key_for_html( $site->secret_key ) : esc_html( $site->secret_key ); ?></td>
                         <td>
                             <form action="" method="POST">
                                 <input type="hidden" name="fs_action" value="delete_install">
@@ -564,8 +389,7 @@
     <?php endif ?>
 <?php endforeach ?>
 <?php
-    $addons = $VARS['addons'];
-?>
+ $addons = $VARS['addons']; ?>
 <?php foreach ( $addons as $plugin_id => $plugin_addons ) : ?>
     <h2><?php echo esc_html( sprintf( fs_text_inline( 'Add Ons of module %s', 'addons-of-x' ), $plugin_id ) ) ?></h2>
     <table id="fs_addons" class="widefat">
@@ -581,10 +405,7 @@
         </thead>
         <tbody>
         <?php
-            /**
-             * @var FS_Plugin[] $plugin_addons
-             */
-            foreach ( $plugin_addons as $addon ) : ?>
+ foreach ( $plugin_addons as $addon ) : ?>
                 <tr>
                     <td><?php echo $addon->id ?></td>
                     <td><?php echo $addon->title ?></td>
@@ -598,33 +419,7 @@
     </table>
 <?php endforeach ?>
 <?php
-    /**
-     * @var FS_User[] $users
-     */
-    $users                              = $VARS['users'];
-    $user_ids_map                       = array();
-    $users_with_developer_license_by_id = array();
-
-    if ( is_array( $users ) && ! empty( $users ) ) {
-        foreach ( $users as $user ) {
-            $user_ids_map[ $user->id ] = true;
-        }
-    }
-
-    foreach ( $module_types as $module_type ) {
-        /**
-         * @var FS_Plugin_License[] $licenses
-         */
-        $licenses = $VARS[ $module_type . '_licenses' ];
-
-        foreach ( $licenses as $license ) {
-            if ( $license->is_whitelabeled ) {
-                $users_with_developer_license_by_id[ $license->user_id ] = true;
-            }
-        }
-    }
-
-?>
+ $users = $VARS['users']; $user_ids_map = array(); $users_with_developer_license_by_id = array(); if ( is_array( $users ) && ! empty( $users ) ) { foreach ( $users as $user ) { $user_ids_map[ $user->id ] = true; } } foreach ( $module_types as $module_type ) { $licenses = $VARS[ $module_type . '_licenses' ]; foreach ( $licenses as $license ) { if ( $license->is_whitelabeled ) { $users_with_developer_license_by_id[ $license->user_id ] = true; } } } ?>
 <?php if ( is_array( $users ) && 0 < count( $users ) ) : ?>
     <h2><?php fs_esc_html_echo_inline( 'Users' ) ?></h2>
     <table id="fs_users" class="widefat">
@@ -670,10 +465,7 @@
 <?php endif ?>
 <?php foreach ( $module_types as $module_type ) : ?>
     <?php
-    /**
-     * @var FS_Plugin_License[] $licenses
-     */
-    $licenses = $VARS[ $module_type . '_licenses' ] ?>
+ $licenses = $VARS[ $module_type . '_licenses' ] ?>
     <?php if ( is_array( $licenses ) && count( $licenses ) > 0 ) : ?>
         <h2><?php echo esc_html( sprintf( fs_text_inline( '%s Licenses', 'module-licenses' ), ( WP_FS__MODULE_TYPE_PLUGIN === $module_type ? fs_text_inline( 'Plugin', 'plugin' ) : fs_text_inline( 'Theme', 'theme' ) ) ) ) ?></h2>
         <table id="fs_<?php echo $module_type ?>_licenses" class="widefat">
@@ -703,10 +495,7 @@
                     <td><?php echo $license->is_block_features ? 'Blocking' : 'Flexible' ?></td>
                     <td><?php echo $license->is_whitelabeled ? 'Whitelabeled' : 'Normal' ?></td>
                     <td><?php
-                            echo ( $license->is_whitelabeled || ! isset( $user_ids_map[ $license->user_id ] ) ) ?
-                                $license->get_html_escaped_masked_secret_key() :
-                                esc_html( $license->secret_key );
-                    ?></td>
+ echo ( $license->is_whitelabeled || ! isset( $user_ids_map[ $license->user_id ] ) ) ? $license->get_html_escaped_masked_secret_key() : esc_html( $license->secret_key ); ?></td>
                     <td><?php echo $license->expiration ?></td>
                 </tr>
             <?php endforeach ?>

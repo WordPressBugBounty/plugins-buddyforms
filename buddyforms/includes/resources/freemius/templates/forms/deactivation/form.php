@@ -1,48 +1,8 @@
 <?php
-	/**
-	 * @package     Freemius
-	 * @copyright   Copyright (c) 2015, Freemius, Inc.
-	 * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-	 * @since       1.1.2
-	 */
 
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit;
-	}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-	/**
-	 * @var array $VARS
-	 */
-	$fs   = freemius( $VARS['id'] );
-	$slug = $fs->get_slug();
-
-    $subscription_cancellation_dialog_box_template_params = $VARS['subscription_cancellation_dialog_box_template_params'];
-    $show_deactivation_feedback_form                      = $VARS['show_deactivation_feedback_form'];
-	$confirmation_message                                 = $VARS['uninstall_confirmation_message'];
-
-    $is_anonymous                     = ( ! $fs->is_registered() );
-    $anonymous_feedback_checkbox_html = '';
-
-    $reasons_list_items_html = '';
-    $snooze_select_html      = '';
-
-    if ( $show_deactivation_feedback_form ) {
-        $reasons = $VARS['reasons'];
-
-        foreach ( $reasons as $reason ) {
-            $list_item_classes    = 'reason' . ( ! empty( $reason['input_type'] ) ? ' has-input' : '' );
-
-            if ( isset( $reason['internal_message'] ) && ! empty( $reason['internal_message'] ) ) {
-                $list_item_classes .= ' has-internal-message';
-                $reason_internal_message = $reason['internal_message'];
-            } else {
-                $reason_internal_message = '';
-            }
-
-            $reason_input_type = ( ! empty( $reason['input_type'] ) ? $reason['input_type'] : '' );
-            $reason_input_placeholder = ( ! empty( $reason['input_placeholder'] ) ? $reason['input_placeholder'] : '' );
-
-            $reason_list_item_html = <<< HTML
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $subscription_cancellation_dialog_box_template_params = $VARS['subscription_cancellation_dialog_box_template_params']; $show_deactivation_feedback_form = $VARS['show_deactivation_feedback_form']; $confirmation_message = $VARS['uninstall_confirmation_message']; $is_anonymous = ( ! $fs->is_registered() ); $anonymous_feedback_checkbox_html = ''; $reasons_list_items_html = ''; $snooze_select_html = ''; if ( $show_deactivation_feedback_form ) { $reasons = $VARS['reasons']; foreach ( $reasons as $reason ) { $list_item_classes = 'reason' . ( ! empty( $reason['input_type'] ) ? ' has-input' : '' ); if ( isset( $reason['internal_message'] ) && ! empty( $reason['internal_message'] ) ) { $list_item_classes .= ' has-internal-message'; $reason_internal_message = $reason['internal_message']; } else { $reason_internal_message = ''; } $reason_input_type = ( ! empty( $reason['input_type'] ) ? $reason['input_type'] : '' ); $reason_input_placeholder = ( ! empty( $reason['input_placeholder'] ) ? $reason['input_placeholder'] : '' ); $reason_list_item_html = <<< HTML
                 <li class="{$list_item_classes}"
                     data-input-type="{$reason_input_type}"
                     data-input-placeholder="{$reason_input_placeholder}">
@@ -55,71 +15,7 @@
                     <div class="internal-message">{$reason_internal_message}</div>
                 </li>
 HTML;
-
-            $reasons_list_items_html .= $reason_list_item_html;
-        }
-
-        if ( $is_anonymous ) {
-            $anonymous_feedback_checkbox_html = sprintf(
-                '<label class="anonymous-feedback-label"><input type="checkbox" class="anonymous-feedback-checkbox"> %s</label>',
-                fs_esc_html_inline( 'Anonymous feedback', 'anonymous-feedback', $slug )
-            );
-        }
-
-        $snooze_periods = array(
-            array(
-                'increment' => fs_text_inline( 'hour', $slug ),
-                'quantity'  => number_format_i18n(1),
-                'value'     => 6 * WP_FS__TIME_10_MIN_IN_SEC,
-            ),
-            array(
-                'increment' => fs_text_inline( 'hours', $slug ),
-                'quantity'  => number_format_i18n(24),
-                'value'     => WP_FS__TIME_24_HOURS_IN_SEC,
-            ),
-            array(
-                'increment' => fs_text_inline( 'days', $slug ),
-                'quantity'  => number_format_i18n(7),
-                'value'     => WP_FS__TIME_WEEK_IN_SEC,
-            ),
-            array(
-                'increment' => fs_text_inline( 'days', $slug ),
-                'quantity'  => number_format_i18n(30),
-                'value'     => 30 * WP_FS__TIME_24_HOURS_IN_SEC,
-            ),
-        );
-
-        $snooze_select_html = '<select>';
-        foreach ($snooze_periods as $period) {
-            $snooze_select_html .= sprintf(
-                '<option value="%s">%s %s</option>',
-                $period['value'],
-                $period['quantity'],
-                $period['increment']
-            );
-        }
-
-        $snooze_select_html .= '</select>';
-    }
-
-	// Aliases.
-	$deactivate_text = fs_text_inline( 'Deactivate', 'deactivate', $slug );
-	$theme_text      = fs_text_inline( 'Theme', 'theme', $slug );
-	$activate_x_text = fs_text_inline( 'Activate %s', 'activate-x', $slug );
-
-    $submit_deactivate_text = sprintf(
-        fs_text_inline( 'Submit & %s', 'deactivation-modal-button-submit', $slug ),
-        $fs->is_plugin() ?
-            $deactivate_text :
-            sprintf( $activate_x_text, $theme_text )
-    );
-
-	fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-
-    if ( ! empty( $subscription_cancellation_dialog_box_template_params ) ) {
-        fs_require_template( 'forms/subscription-cancellation.php', $subscription_cancellation_dialog_box_template_params );
-    }
-?>
+$reasons_list_items_html .= $reason_list_item_html; } if ( $is_anonymous ) { $anonymous_feedback_checkbox_html = sprintf( '<label class="anonymous-feedback-label"><input type="checkbox" class="anonymous-feedback-checkbox"> %s</label>', fs_esc_html_inline( 'Anonymous feedback', 'anonymous-feedback', $slug ) ); } $snooze_periods = array( array( 'increment' => fs_text_inline( 'hour', $slug ), 'quantity' => number_format_i18n(1), 'value' => 6 * WP_FS__TIME_10_MIN_IN_SEC, ), array( 'increment' => fs_text_inline( 'hours', $slug ), 'quantity' => number_format_i18n(24), 'value' => WP_FS__TIME_24_HOURS_IN_SEC, ), array( 'increment' => fs_text_inline( 'days', $slug ), 'quantity' => number_format_i18n(7), 'value' => WP_FS__TIME_WEEK_IN_SEC, ), array( 'increment' => fs_text_inline( 'days', $slug ), 'quantity' => number_format_i18n(30), 'value' => 30 * WP_FS__TIME_24_HOURS_IN_SEC, ), ); $snooze_select_html = '<select>'; foreach ($snooze_periods as $period) { $snooze_select_html .= sprintf( '<option value="%s">%s %s</option>', $period['value'], $period['quantity'], $period['increment'] ); } $snooze_select_html .= '</select>'; } $deactivate_text = fs_text_inline( 'Deactivate', 'deactivate', $slug ); $theme_text = fs_text_inline( 'Theme', 'theme', $slug ); $activate_x_text = fs_text_inline( 'Activate %s', 'activate-x', $slug ); $submit_deactivate_text = sprintf( fs_text_inline( 'Submit & %s', 'deactivation-modal-button-submit', $slug ), $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ); fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); if ( ! empty( $subscription_cancellation_dialog_box_template_params ) ) { fs_require_template( 'forms/subscription-cancellation.php', $subscription_cancellation_dialog_box_template_params ); } ?>
 <script type="text/javascript">
 (function ($) {
 	var reasonsHtml                    = <?php echo json_encode( $reasons_list_items_html ) ?>,
@@ -174,10 +70,7 @@ HTML;
                 var $errorMessage = $subscriptionCancellationModal.find( '.notice-error' );
 
                 <?php
-                $subscription_cancellation_context = $fs->is_paid_trial() ?
-                    fs_text_inline( 'trial', 'trial', $slug ) :
-                    fs_text_inline( 'subscription', 'subscription', $slug );
-                ?>
+ $subscription_cancellation_context = $fs->is_paid_trial() ? fs_text_inline( 'trial', 'trial', $slug ) : fs_text_inline( 'subscription', 'subscription', $slug ); ?>
 
                 $.ajax({
                     url       : <?php echo Freemius::ajax_url() ?>,
@@ -191,9 +84,7 @@ HTML;
                         $errorMessage.hide();
 
                         $subscriptionCancellationModal.find( '.fs-modal-footer .button' ).addClass( 'disabled' );
-                        $subscriptionCancellationModal.find( '.fs-modal-footer .button-primary' ).text( '<?php echo esc_js(
-                            sprintf( fs_text_inline( 'Cancelling %s...', 'cancelling-x' , $slug ), $subscription_cancellation_context )
-                        ) ?>' );
+                        $subscriptionCancellationModal.find( '.fs-modal-footer .button-primary' ).text( '<?php echo esc_js( sprintf( fs_text_inline( 'Cancelling %s...', 'cancelling-x' , $slug ), $subscription_cancellation_context ) ) ?>' );
                     },
                     success: function( result ) {
                         if ( result.success ) {
@@ -212,10 +103,7 @@ HTML;
                             $errorMessage.show();
 
                             $subscriptionCancellationModal.find( '.fs-modal-footer .button' ).removeClass( 'disabled' );
-                            $subscriptionCancellationModal.find( '.fs-modal-footer .button-primary' ).html( <?php echo json_encode( sprintf(
-                                fs_text_inline( 'Cancel %s & Proceed', 'cancel-x-and-proceed', $slug ),
-                                ucfirst( $subscription_cancellation_context )
-                            ) ) ?> );
+                            $subscriptionCancellationModal.find( '.fs-modal-footer .button-primary' ).html( <?php echo json_encode( sprintf( fs_text_inline( 'Cancel %s & Proceed', 'cancel-x-and-proceed', $slug ), ucfirst( $subscription_cancellation_context ) ) ) ?> );
                         }
                     }
                 });
@@ -243,19 +131,7 @@ HTML;
 		});
 
 		<?php
-        if ( ! $fs->is_plugin() ) {
-		/**
-		 * For "theme" module type, the modal is shown when the current user clicks on
-		 * the "Activate" button of any other theme. The "Activate" button is actually
-		 * a link to the "Themes" page (/wp-admin/themes.php) containing query params
-		 * that tell WordPress to deactivate the current theme and activate a different theme.
-		 *
-		 * @author Leo Fajardo (@leorw)
-		 * @since 1.2.2
-		 *        
-		 * @since 1.2.2.7 Don't trigger the deactivation feedback form if activating the premium version of the theme.
-		 */
-		?>
+ if ( ! $fs->is_plugin() ) { ?>
 		$('body').on('click', '.theme-browser .theme:not([data-slug=<?php echo $fs->get_premium_slug() ?>]) .theme-actions .button.activate', function (evt) {
 			evt.preventDefault();
 
@@ -272,7 +148,7 @@ HTML;
             }
 		});
 		<?php
-		} ?>
+ } ?>
 
 		$modal.on('input propertychange', '.reason-input input', function () {
 			var reason = $(this).val().trim();
@@ -474,18 +350,9 @@ HTML;
 
 		var updateDeactivationButtonOnTrouble = function () {
             if ( snooze ) {
-                $modal.find('.button-deactivate').html('<?php echo esc_js( sprintf(
-                    fs_text_inline( 'Snooze & %s', 'snooze-modal-button-submit' , $slug ),
-                    $fs->is_plugin() ?
-                        $deactivate_text :
-                        sprintf( $activate_x_text, $theme_text )
-                ) ) ?>');
+                $modal.find('.button-deactivate').html('<?php echo esc_js( sprintf( fs_text_inline( 'Snooze & %s', 'snooze-modal-button-submit' , $slug ), $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ) ) ?>');
             } else {
-                $modal.find('.button-deactivate').html('<?php echo esc_js(
-                    $fs->is_plugin() ?
-                        $deactivate_text :
-                        sprintf( $activate_x_text, $theme_text )
-                ) ?>');
+                $modal.find('.button-deactivate').html('<?php echo esc_js( $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ) ?>');
             }
         };
 
@@ -612,11 +479,7 @@ HTML;
 
 	    if (0 === $userReason.val().trim().length) {
 	        // If the reason is empty, just change the text to 'Deactivate' (plugin) or 'Activate themeX' (theme).
-            $deactivateButton.html('<?php echo
-                $fs->is_plugin() ?
-                    $deactivate_text :
-                    sprintf( $activate_x_text, $theme_text )
-            ?>');
+            $deactivateButton.html('<?php echo $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ?>');
         } else {
             $deactivateButton.html('<?php echo esc_js( $submit_deactivate_text ) ?>');
         }
@@ -634,19 +497,9 @@ HTML;
 
         // Reset the deactivate button's text.
         if ( 'confirm' === getCurrentPanel() ) {
-            $deactivateButton.text( <?php echo json_encode( sprintf(
-                fs_text_inline( 'Yes - %s', 'deactivation-modal-button-confirm', $slug ),
-                $fs->is_plugin() ?
-                    $deactivate_text :
-                    sprintf( $activate_x_text, $theme_text )
-            ) ) ?> );
+            $deactivateButton.text( <?php echo json_encode( sprintf( fs_text_inline( 'Yes - %s', 'deactivation-modal-button-confirm', $slug ), $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ) ) ?> );
 		} else {
-            $deactivateButton.html( <?php echo json_encode( sprintf(
-				fs_text_inline('Skip & %s', 'skip-and-x', $slug ),
-				$fs->is_plugin() ?
-					$deactivate_text :
-					sprintf( $activate_x_text, $theme_text )
-			) ) ?> );
+            $deactivateButton.html( <?php echo json_encode( sprintf( fs_text_inline('Skip & %s', 'skip-and-x', $slug ), $fs->is_plugin() ? $deactivate_text : sprintf( $activate_x_text, $theme_text ) ) ) ?> );
 		}
 	}
 

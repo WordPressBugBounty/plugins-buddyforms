@@ -1,98 +1,8 @@
 <?php
-    /**
-     * @package     Freemius
-     * @copyright   Copyright (c) 2015, Freemius, Inc.
-     * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     * @since       1.2.3
-     */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var array    $VARS
-     * @var Freemius $fs
-     * @var string   $plugin_title
-     */
-    $fs           = freemius( $VARS['id'] );
-    $plugin_title = $VARS['plugin_title'];
-
-    $slug = $fs->get_slug();
-
-    $user            = $fs->get_user();
-    $affiliate       = $fs->get_affiliate();
-    $affiliate_terms = $fs->get_affiliate_terms();
-
-    $module_type  = $fs->is_plugin() ?
-        WP_FS__MODULE_TYPE_PLUGIN :
-        WP_FS__MODULE_TYPE_THEME;
-
-    $commission = $affiliate_terms->get_formatted_commission();
-
-    $readonly                      = false;
-    $is_affiliate                  = is_object( $affiliate );
-    $is_pending_affiliate          = false;
-    $email_address                 = ( is_object( $user ) ?
-        $user->email :
-        '' );
-    $full_name                     = ( is_object( $user ) ?
-        $user->get_name() :
-        '' );
-    $paypal_email_address          = '';
-    $domain                        = '';
-    $extra_domains                 = array();
-    $promotion_method_social_media = false;
-    $promotion_method_mobile_apps  = false;
-    $statistics_information        = false;
-    $promotion_method_description  = false;
-    $members_dashboard_login_url   = 'https://users.freemius.com/login';
-
-    $affiliate_application_data = $fs->get_affiliate_application_data();
-
-    if ( $is_affiliate && $affiliate->is_pending() ) {
-        $readonly             = 'readonly';
-        $is_pending_affiliate = true;
-
-        $paypal_email_address         = $affiliate->paypal_email;
-        $domain                       = $affiliate->domain;
-        $statistics_information       = $affiliate_application_data['stats_description'];
-        $promotion_method_description = $affiliate_application_data['promotion_method_description'];
-
-        if ( ! empty( $affiliate_application_data['additional_domains'] ) ) {
-            $extra_domains = $affiliate_application_data['additional_domains'];
-        }
-
-        if ( ! empty( $affiliate_application_data['promotion_methods'] ) ) {
-            $promotion_methods             = explode( ',', $affiliate_application_data['promotion_methods'] );
-            $promotion_method_social_media = in_array( 'social_media', $promotion_methods );
-            $promotion_method_mobile_apps  = in_array( 'mobile_apps', $promotion_methods );
-        }
-    } else {
-        if ( ! is_object( $user ) ) {
-            $current_user  = Freemius::_get_current_wp_user();
-            $full_name     = trim( $current_user->user_firstname . ' ' . $current_user->user_lastname );
-            $email_address = $current_user->user_email;
-        }
-
-        $domain = Freemius::get_unfiltered_site_url( null, true );
-    }
-
-    $affiliate_tracking = 30;
-
-    if ( is_object( $affiliate_terms ) ) {
-        $affiliate_tracking = ( ! is_null( $affiliate_terms->cookie_days ) ?
-            ( $affiliate_terms->cookie_days . '-day' ) :
-            fs_text_inline( 'Non-expiring', 'non-expiring', $slug ) );
-    }
-
-    $apply_to_become_affiliate_text = fs_text_inline( 'Apply to become an affiliate', 'apply-to-become-an-affiliate', $slug );
-
-    $module_id                   = $fs->get_id();
-    $affiliate_program_terms_url = "https://freemius.com/plugin/{$module_id}/{$slug}/legal/affiliate-program/";
-
-    $has_tabs = $fs->_add_tabs_before_content();
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $plugin_title = $VARS['plugin_title']; $slug = $fs->get_slug(); $user = $fs->get_user(); $affiliate = $fs->get_affiliate(); $affiliate_terms = $fs->get_affiliate_terms(); $module_type = $fs->is_plugin() ? WP_FS__MODULE_TYPE_PLUGIN : WP_FS__MODULE_TYPE_THEME; $commission = $affiliate_terms->get_formatted_commission(); $readonly = false; $is_affiliate = is_object( $affiliate ); $is_pending_affiliate = false; $email_address = ( is_object( $user ) ? $user->email : '' ); $full_name = ( is_object( $user ) ? $user->get_name() : '' ); $paypal_email_address = ''; $domain = ''; $extra_domains = array(); $promotion_method_social_media = false; $promotion_method_mobile_apps = false; $statistics_information = false; $promotion_method_description = false; $members_dashboard_login_url = 'https://users.freemius.com/login'; $affiliate_application_data = $fs->get_affiliate_application_data(); if ( $is_affiliate && $affiliate->is_pending() ) { $readonly = 'readonly'; $is_pending_affiliate = true; $paypal_email_address = $affiliate->paypal_email; $domain = $affiliate->domain; $statistics_information = $affiliate_application_data['stats_description']; $promotion_method_description = $affiliate_application_data['promotion_method_description']; if ( ! empty( $affiliate_application_data['additional_domains'] ) ) { $extra_domains = $affiliate_application_data['additional_domains']; } if ( ! empty( $affiliate_application_data['promotion_methods'] ) ) { $promotion_methods = explode( ',', $affiliate_application_data['promotion_methods'] ); $promotion_method_social_media = in_array( 'social_media', $promotion_methods ); $promotion_method_mobile_apps = in_array( 'mobile_apps', $promotion_methods ); } } else { if ( ! is_object( $user ) ) { $current_user = Freemius::_get_current_wp_user(); $full_name = trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ); $email_address = $current_user->user_email; } $domain = Freemius::get_unfiltered_site_url( null, true ); } $affiliate_tracking = 30; if ( is_object( $affiliate_terms ) ) { $affiliate_tracking = ( ! is_null( $affiliate_terms->cookie_days ) ? ( $affiliate_terms->cookie_days . '-day' ) : fs_text_inline( 'Non-expiring', 'non-expiring', $slug ) ); } $apply_to_become_affiliate_text = fs_text_inline( 'Apply to become an affiliate', 'apply-to-become-an-affiliate', $slug ); $module_id = $fs->get_id(); $affiliate_program_terms_url = "https://freemius.com/plugin/{$module_id}/{$slug}/legal/affiliate-program/"; $has_tabs = $fs->_add_tabs_before_content(); ?>
 <div id="fs_affiliation_content_wrapper" class="wrap">
     <form method="post" action="">
         <div id="poststuff">
@@ -109,35 +19,11 @@
                             <?php if ( $affiliate->is_active() ) : ?>
                                 <div class="updated">
                                     <p><strong><?php
-                                        echo sprintf(
-                                            fs_esc_html_inline( "Your affiliate application for %s has been accepted! Log in to your affiliate area at: %s.", 'affiliate-application-accepted', $slug ),
-                                            $plugin_title,
-                                            sprintf(
-                                                '<a href="%s" target="_blank" rel="noopener">%s</a>',
-                                                $members_dashboard_login_url,
-                                                $members_dashboard_login_url
-                                            )
-                                        );
-                                    ?></strong></p>
+ echo sprintf( fs_esc_html_inline( "Your affiliate application for %s has been accepted! Log in to your affiliate area at: %s.", 'affiliate-application-accepted', $slug ), $plugin_title, sprintf( '<a href="%s" target="_blank" rel="noopener">%s</a>', $members_dashboard_login_url, $members_dashboard_login_url ) ); ?></strong></p>
                                 </div>
                             <?php else : ?>
                                     <?php
-                                    $message_text = '';
-
-                                    if ( $is_pending_affiliate ) {
-                                        $message_text            = fs_text_inline( "Thank you for applying for our affiliate program, we'll review your details during the next 14 days and will get back to you with further information.", 'affiliate-application-thank-you', $slug );
-                                        $message_container_class = 'updated';
-                                    } else if ( $affiliate->is_suspended() ) {
-                                        $message_text            = fs_text_inline( 'Your affiliation account was temporarily suspended.', 'affiliate-account-suspended', $slug );
-                                        $message_container_class = 'notice notice-warning';
-                                    } else if ( $affiliate->is_rejected() ) {
-                                        $message_text            = fs_text_inline( "Thank you for applying for our affiliate program, unfortunately, we've decided at this point to reject your application. Please try again in 30 days.", 'affiliate-application-rejected', $slug );
-                                        $message_container_class = 'error';
-                                    } else if ( $affiliate->is_blocked() ) {
-                                        $message_text            = fs_text_inline( 'Due to violation of our affiliation terms, we decided to temporarily block your affiliation account. If you have any questions, please contact support.', 'affiliate-account-blocked', $slug );
-                                        $message_container_class = 'error';
-                                    }
-                                    ?>
+ $message_text = ''; if ( $is_pending_affiliate ) { $message_text = fs_text_inline( "Thank you for applying for our affiliate program, we'll review your details during the next 14 days and will get back to you with further information.", 'affiliate-application-thank-you', $slug ); $message_container_class = 'updated'; } else if ( $affiliate->is_suspended() ) { $message_text = fs_text_inline( 'Your affiliation account was temporarily suspended.', 'affiliate-account-suspended', $slug ); $message_container_class = 'notice notice-warning'; } else if ( $affiliate->is_rejected() ) { $message_text = fs_text_inline( "Thank you for applying for our affiliate program, unfortunately, we've decided at this point to reject your application. Please try again in 30 days.", 'affiliate-application-rejected', $slug ); $message_container_class = 'error'; } else if ( $affiliate->is_blocked() ) { $message_text = fs_text_inline( 'Due to violation of our affiliation terms, we decided to temporarily block your affiliation account. If you have any questions, please contact support.', 'affiliate-account-blocked', $slug ); $message_container_class = 'error'; } ?>
                                     <div class="<?php echo $message_container_class ?>">
                                         <p><strong><?php echo esc_html( $message_text ) ?></strong></p>
                                     </div>
@@ -505,14 +391,4 @@
         </script>
     </div>
 <?php
-    if ( $has_tabs ) {
-        $fs->_add_tabs_after_content();
-    }
-
-    $params = array(
-        'page'           => 'affiliation',
-        'module_id'      => $module_id,
-        'module_slug'    => $slug,
-        'module_version' => $fs->get_plugin_version(),
-    );
-    fs_require_template( 'powered-by.php', $params );
+ if ( $has_tabs ) { $fs->_add_tabs_after_content(); } $params = array( 'page' => 'affiliation', 'module_id' => $module_id, 'module_slug' => $slug, 'module_version' => $fs->get_plugin_version(), ); fs_require_template( 'powered-by.php', $params ); 

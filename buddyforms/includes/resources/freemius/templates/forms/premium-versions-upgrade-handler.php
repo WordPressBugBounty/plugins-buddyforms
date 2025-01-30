@@ -1,64 +1,8 @@
 <?php
-    /**
-     * @package   Freemius
-     * @copyright Copyright (c) 2015, Freemius, Inc.
-     * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
-     * @since     2.0.2
-     */
 
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-    /**
-     * @var Freemius $fs
-     */
-    $fs   = freemius( $VARS['id'] );
-    $slug = $fs->get_slug();
-
-    $plugin_data     = $fs->get_plugin_data();
-    $plugin_name     = $plugin_data['Name'];
-    $plugin_basename = $fs->get_plugin_basename();
-
-    $license = $fs->_get_license();
-
-    if ( ! is_object( $license ) ) {
-        $purchase_url = $fs->pricing_url();
-    } else {
-        $subscription = $fs->_get_subscription( $license->id );
-
-        $purchase_url = $fs->checkout_url(
-            is_object( $subscription ) ?
-                ( 1 == $subscription->billing_cycle ? WP_FS__PERIOD_MONTHLY : WP_FS__PERIOD_ANNUALLY ) :
-                WP_FS__PERIOD_LIFETIME,
-            false,
-            array( 'licenses' => $license->quota )
-        );
-    }
-
-    $message = sprintf(
-        fs_text_inline( 'There is a new version of %s available.', 'new-version-available-message', $slug ) .
-        fs_text_inline( ' %s to access version %s security & feature updates, and support.', 'x-for-updates-and-support', $slug ),
-        '<span id="plugin_name"></span>',
-        sprintf(
-            '<a id="pricing_url" href="">%s</a>',
-            is_object( $license ) ?
-                fs_text_inline( 'Renew your license now', 'renew-license-now', $slug ) :
-                fs_text_inline( 'Buy a license now', 'buy-license-now', $slug )
-        ),
-        '<span id="new_version"></span>'
-    );
-
-    $modal_content_html = "<p>{$message}</p>";
-
-    $header_title = fs_text_inline( 'New Version Available', 'new-version-available', $slug );
-
-    $renew_license_button_text = is_object( $license ) ?
-        fs_text_inline( 'Renew license', 'renew-license', $slug ) :
-        fs_text_inline( 'Buy license', 'buy-license', $slug );
-
-    fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
-?>
+ if ( ! defined( 'ABSPATH' ) ) { exit; } $fs = freemius( $VARS['id'] ); $slug = $fs->get_slug(); $plugin_data = $fs->get_plugin_data(); $plugin_name = $plugin_data['Name']; $plugin_basename = $fs->get_plugin_basename(); $license = $fs->_get_license(); if ( ! is_object( $license ) ) { $purchase_url = $fs->pricing_url(); } else { $subscription = $fs->_get_subscription( $license->id ); $purchase_url = $fs->checkout_url( is_object( $subscription ) ? ( 1 == $subscription->billing_cycle ? WP_FS__PERIOD_MONTHLY : WP_FS__PERIOD_ANNUALLY ) : WP_FS__PERIOD_LIFETIME, false, array( 'licenses' => $license->quota ) ); } $message = sprintf( fs_text_inline( 'There is a new version of %s available.', 'new-version-available-message', $slug ) . fs_text_inline( ' %s to access version %s security & feature updates, and support.', 'x-for-updates-and-support', $slug ), '<span id="plugin_name"></span>', sprintf( '<a id="pricing_url" href="">%s</a>', is_object( $license ) ? fs_text_inline( 'Renew your license now', 'renew-license-now', $slug ) : fs_text_inline( 'Buy a license now', 'buy-license-now', $slug ) ), '<span id="new_version"></span>' ); $modal_content_html = "<p>{$message}</p>"; $header_title = fs_text_inline( 'New Version Available', 'new-version-available', $slug ); $renew_license_button_text = is_object( $license ) ? fs_text_inline( 'Renew license', 'renew-license', $slug ) : fs_text_inline( 'Buy license', 'buy-license', $slug ); fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' ); ?>
 <script type="text/javascript">
 (function( $ ) {
     $( document ).ready(function() {
