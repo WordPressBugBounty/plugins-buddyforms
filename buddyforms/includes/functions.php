@@ -969,11 +969,11 @@ function buddyforms_add_mce_placeholder_plugin(  $plugins  ) {
  */
 function buddyforms_tinymce_setup_function(  $initArray  ) {
     $initArray['setup'] = 'function(editor) {
-                editor.on("change keyup", function(e){
-                    editor.save();
-                    jQuery(editor.getElement()).trigger(\'change\');
-                });
-            }';
+				editor.on("change keyup", function(e){
+					editor.save();
+					jQuery(editor.getElement()).trigger(\'change\');
+				});
+			}';
     return $initArray;
 }
 
@@ -2099,25 +2099,30 @@ add_filter( 'safe_style_css', 'buddyforms_add_safe_css_attributes' );
 function buddyforms_wp_kses_allowed_atts() {
     $allowed_tags = array(
         'div'      => array(
-            'class'           => array(),
-            'id'              => array(),
-            'hidefocus'       => array(),
-            'tabindex'        => array(),
-            'role'            => array(),
-            'style'           => array(),
-            'action'          => array(),
-            'page'            => array(),
-            'aria-labelledby' => array(),
-            'aria-haspopup'   => array(),
-            'aria-pressed'    => array(),
-            'aria-label'      => array(),
-            'aria-level'      => array(),
-            'aria-controls'   => array(),
-            'aria-selected'   => array(),
-            'aria-expanded'   => array(),
-            'data-index'      => array(),
-            'data-entry'      => array(),
-            'data-dz-message' => array(),
+            'class'             => array(),
+            'id'                => array(),
+            'hidefocus'         => array(),
+            'tabindex'          => array(),
+            'role'              => array(),
+            'style'             => array(),
+            'action'            => array(),
+            'page'              => array(),
+            'aria-labelledby'   => array(),
+            'aria-haspopup'     => array(),
+            'aria-pressed'      => array(),
+            'aria-label'        => array(),
+            'aria-level'        => array(),
+            'aria-controls'     => array(),
+            'aria-selected'     => array(),
+            'aria-expanded'     => array(),
+            'data-index'        => array(),
+            'data-entry'        => array(),
+            'data-dz-message'   => array(),
+            'data-type'         => array(),
+            'data-size'         => array(),
+            'data-theme'        => array(),
+            'data-element-slug' => array(),
+            'data-sitekey'      => array(),
         ),
         'span'     => array(
             'class'                  => array(),
@@ -2192,6 +2197,11 @@ function buddyforms_wp_kses_allowed_atts() {
             'data-msg-upload-required'        => array(),
             'data-rule-featured-image-error'  => array(),
             'upload_error_validation_message' => array(),
+            'data-type'                       => array(),
+            'data-size'                       => array(),
+            'data-theme'                      => array(),
+            'data-element-slug'               => array(),
+            'data-sitekey'                    => array(),
         ),
         'select'   => array(
             'class'               => array(),
@@ -2467,6 +2477,9 @@ function buddyforms_wp_kses_allowed_atts() {
             'id'    => array(),
             'style' => array(),
             'name'  => array(),
+        ),
+        'script'   => array(
+            'src' => array(),
         ),
     );
     return $allowed_tags;
