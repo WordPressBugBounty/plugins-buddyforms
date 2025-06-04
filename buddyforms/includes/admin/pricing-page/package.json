@@ -1,0 +1,67 @@
+{
+  "name": "themekraft-pricing-page",
+  "version": "1.0.0",
+  "scripts": {
+    "js:build": "esbuild src/js/*.js --bundle --outdir=build/js/",
+    "sass:build": "sass src/sass:build/css --no-source-map --style=compressed -I node_modules",
+    "sass:lint": "stylelint src/sass/**/*.scss --fix",
+    "js:watch": "esbuild src/js/*.js --bundle --sourcemap --outdir=build/js/ --watch",
+    "sass:dev": "sass src/sass:build/css --source-map --style=expanded -I node_modules",
+    "css:watch": "watch 'npm run sass:lint && npm run sass:dev' src/sass",
+    "build": "rm -rf build && npm run js:build && npm run sass:build",
+    "start": "concurrently --kill-others \"npm run js:watch\" \"npm run css:watch\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Themekraft/pricing-page.git"
+  },
+  "author": "Camilo Luna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Themekraft/pricing-page/issues"
+  },
+  "homepage": "https://github.com/Themekraft/pricing-page#readme",
+  "description": "",
+  "devDependencies": {
+    "@pragmatics/stylelint-config-order": "^2.2.3",
+    "@wordpress/stylelint-config": "^23.5.0",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.3",
+    "sass": "^1.87.0",
+    "stylelint": "^16.19.1",
+    "watch": "^1.0.2"
+  },
+  "stylelint": {
+    "extends": [
+      "@wordpress/stylelint-config/scss",
+      "@pragmatics/stylelint-config-order"
+    ],
+    "rules": {
+      "at-rule-empty-line-before": [
+        "always",
+        {
+          "except": [
+            "blockless-after-same-name-blockless",
+            "first-nested"
+          ],
+          "ignore": [
+            "after-comment",
+            "first-nested"
+          ]
+        }
+      ],
+      "rule-empty-line-before": [
+        "always",
+        {
+          "except": [
+            "first-nested"
+          ],
+          "ignore": [
+            "after-comment"
+          ]
+        }
+      ],
+      "selector-class-pattern": "^(?:(?:o|c|u|t|s|is|has|_|js|qa)-)?[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:__[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:--[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:\\[.+\\])?$"
+    }
+  }
+}

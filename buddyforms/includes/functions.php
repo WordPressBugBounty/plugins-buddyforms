@@ -254,7 +254,7 @@ function buddyforms_get_wp_login_form(
     $wp_login_form = '<div class="bf-show-login-form" ' . $hide_style . '>';
     // include own login basic style
     ob_start();
-    require BUDDYFORMS_INCLUDES_PATH . '/resources/pfbc/Style/LoginStyle.php';
+    require BUDDYFORMS_INCLUDES_PATH . 'resources/pfbc/Style/LoginStyle.php';
     $style = ob_get_clean();
     if ( !empty( $style ) ) {
         $style = buddyforms_minify_css( $style );
@@ -1327,6 +1327,10 @@ add_action( 'wp_ajax_handle_dropped_media', 'buddyforms_upload_handle_dropped_me
 function buddyforms_upload_handle_dropped_media() {
     check_ajax_referer( 'fac_drop', 'nonce' );
     $form_slug = ( isset( $_POST['form_slug'] ) ? sanitize_text_field( wp_unslash( $_POST['form_slug'] ) ) : '' );
+    $form_post = get_page_by_path( $form_slug, OBJECT, 'buddyforms' );
+    $form_id = $form_post->ID;
+    $public_submit = get_post_meta( $form_id, '_buddyforms_options', true )['public_submit'] ?? false;
+    $allow_public_submit = 'public_submit' === $public_submit;
     $current_user = wp_get_current_user();
     $current_user_can_edit = bf_user_can(
         $current_user->ID,
@@ -1346,7 +1350,7 @@ function buddyforms_upload_handle_dropped_media() {
         array(),
         $form_slug
     );
-    if ( $current_user_can_edit || $current_user_can_create || $current_user_can_draft ) {
+    if ( $current_user_can_edit || $current_user_can_create || $current_user_can_draft || $allow_public_submit ) {
         status_header( 200 );
         $newupload = 0;
         if ( !empty( $_FILES ) ) {
@@ -2191,7 +2195,6 @@ function buddyforms_wp_kses_allowed_atts() {
             'data-form'                       => array(),
             'data-rule-minlength'             => array(),
             'data-rule-maxlength'             => array(),
-            'placeholder'                     => array(),
             'aria-autocomplete'               => array(),
             'data-rule-upload-required'       => array(),
             'data-msg-upload-required'        => array(),
@@ -2482,5 +2485,25 @@ function buddyforms_wp_kses_allowed_atts() {
             'src' => array(),
         ),
     );
+    return $allowed_tags;
+}
+
+/**
+ * BuddyForms WP KSES allowed attributes for upload forms.
+ *
+ * @return array
+ */
+function buddyforms_wp_kses_upload_form_allowed_atts() {
+    $allowed_tags = buddyforms_wp_kses_allowed_atts();
+    $allowed_tags['div']['file_limit'] = array();
+    $allowed_tags['div']['accepted_files'] = array();
+    $allowed_tags['div']['multiple_files'] = array();
+    $allowed_tags['div']['action'] = array();
+    $allowed_tags['div']['data-entry'] = array();
+    $allowed_tags['div']['page'] = array();
+    $allowed_tags['div']['form-slug'] = array();
+    $allowed_tags['input']['field-id'] = array();
+    $allowed_tags['button']['field-id'] = array();
+    $allowed_tags['button']['accepted_files'] = array();
     return $allowed_tags;
 }

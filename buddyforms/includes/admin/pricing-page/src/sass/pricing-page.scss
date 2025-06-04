@@ -1,0 +1,305 @@
+@import url(https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap);
+
+:root {
+  --Base-White: #fff;
+  --Base-Light: #f0f0f1;
+  --Gray-900: #1d2939;
+  --Gray-800: #1f2937;
+  --Gray-700: #344054;
+  --Gray-600: #475467;
+  --Gray-300: #d0d5dd;
+  --Gray-200: #eaecf0;
+  --Success-600: #079455;
+  --Primary-700: #6941c6;
+  --Primary-600: #7f56d9;
+  --Primary-200: #e9d7fe;
+  --Primary-50: #f9f5ff;
+  --Gradient-Linear-Color-14: linear-gradient(0deg, #fed6e3 0%, #a8edea 100%);
+  --Shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --Shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --Transition-normal: all 0.3s ease-in-out;
+}
+
+html {
+  font-size: 16px;
+}
+
+@mixin Display-sm-Semibold {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.2667;
+}
+
+@mixin Display-md-Semibold {
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.2222;
+  letter-spacing: -0.045rem;
+}
+
+@mixin Display-lg-Semibold {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.06rem;
+}
+
+@mixin Text-xl-Regular {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+@mixin Text-lg-Regular {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.5556;
+}
+
+@mixin Text-md-Regular {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@mixin Text-md-Semibold {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@mixin Text-md-Bold {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@mixin Text-sm-Medium {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4286;
+}
+
+@mixin Text-sm-Semibold {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4286;
+}
+
+.buddy-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 80vh;
+  min-height: 80dvh;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  background-color: var(--Base-Light);
+  color: var(--gray-600);
+  font-optical-sizing: auto;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  &__container {
+    max-width: 80rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 2rem;
+  }
+
+  &__header {
+    margin-bottom: 4rem;
+  }
+
+  &__pre-heading {
+    @include Text-md-Semibold;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--Primary-600);
+  }
+
+  &__heading {
+    @include Display-md-Semibold;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    color: var(--Gray-900);
+  }
+
+  &__description {
+    @include Text-xl-Regular;
+  }
+
+  &__boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  &__box {
+    flex: 0 1 24rem;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    background: var(--Gradient-Linear-Color-14);
+    box-shadow: var(--Shadow-lg);
+  }
+
+  &__box-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    text-align: center;
+  }
+
+  &__plan {
+    @include Text-sm-Medium;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.625rem;
+    border: 1px solid var(--Gray-300);
+    border-radius: 0.5rem;
+    background: var(--Base-White);
+    color: var(--Gray-700);
+  }
+
+  &__price {
+    @include Display-lg-Semibold;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--Gray-900);
+  }
+
+  &__sites {
+    @include Text-md-Bold;
+    margin-bottom: 1rem;
+  }
+
+  &__button {
+    @include Text-md-Semibold;
+    display: block;
+    align-self: stretch;
+    margin-bottom: 0;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--Primary-600);
+    border-radius: 0.5rem;
+    background: var(--Primary-600);
+    color: var(--Base-White);
+    box-shadow: var(--Shadow-xs);
+    cursor: pointer;
+    transition: var(--Transition-normal);
+    appearance: none;
+
+    &:hover,
+    &:focus {
+      border-color: var(--Primary-700);
+      background: var(--Primary-700);
+    }
+
+    &:focus {
+      box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05), 0 0 0 4px #f4ebff;
+    }
+  }
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: none;
+    background: var(--Gray-200);
+  }
+
+  &__features {
+    @include Text-md-Regular;
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    color: var(--Gray-800);
+  }
+
+  &__feature {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 2.25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M7.5 12L10.5 15L16.5 9M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z' stroke='%23079455' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); // stylelint-disable-line function-url-quotes
+    }
+
+    &--highlight {
+      font-weight: 600;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &__container {
+      padding: 1rem;
+    }
+
+    &__header {
+      margin-bottom: 3rem;
+    }
+
+    &__pre-heading {
+      @include Text-sm-Semibold;
+    }
+
+    &__heading {
+      @include Display-sm-Semibold;
+    }
+
+    &__description {
+      @include Text-lg-Regular;
+    }
+
+    &__boxes {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__box {
+      flex: 0 1 auto;
+      width: 100%;
+    }
+
+    &__plan {
+      @include Text-sm-Medium;
+    }
+
+    &__price {
+      @include Display-md-Semibold;
+    }
+
+    &__sites {
+      @include Text-md-Bold;
+    }
+
+    &__button {
+      @include Text-md-Semibold;
+    }
+
+    &__features {
+      @include Text-md-Regular;
+    }
+  }
+}

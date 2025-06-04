@@ -1,9 +1,13 @@
 <?php
 
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
 global $buddyforms, $form_slug, $post_id;
 ?>
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <script>
 	jQuery(document).ready(function () {

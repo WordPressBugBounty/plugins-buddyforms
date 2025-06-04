@@ -7,7 +7,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Plugin Name: BuddyForms
  * Plugin URI:  https://themekraft.com/buddyforms/
  * Description: Contact Forms, Post Forms for User Generated Content and Registration Forms easily build in minutes. Extendable with Addons!
- * Version: 2.8.17
+ * Version: 2.9.0
  * Author: ThemeKraft
  * Author URI: https://themekraft.com/buddyforms/
  * Licence: GPLv3
@@ -43,7 +43,7 @@ if ( !class_exists( 'BuddyForms' ) ) {
         /**
          * @var string
          */
-        public $version = '2.8.17';
+        public $version = '2.9.0';
 
         /**
          * @var array Frontend Global JS parameters
@@ -66,7 +66,7 @@ if ( !class_exists( 'BuddyForms' ) ) {
                 1,
                 1
             );
-            require_once BUDDYFORMS_INCLUDES_PATH . '/form/form-assets.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'form/form-assets.php';
             new BuddyFormsAssets();
             add_action(
                 'init',
@@ -76,7 +76,25 @@ if ( !class_exists( 'BuddyForms' ) ) {
             );
             add_action( 'init', array($this, 'update_db_check'), 10 );
             add_action( 'init', array($this, 'load_plugin_textdomain') );
+            add_action( 'admin_menu', array($this, 'buddyforms_bundle_screen_menu'), 9999 );
             register_deactivation_hook( __FILE__, array($this, 'plugin_deactivation') );
+        }
+
+        /**
+         * Add the BuddyForms Bundle screen menu.
+         */
+        public function buddyforms_bundle_screen_menu() {
+            if ( buddyforms_core_fs()->is_not_paying() ) {
+                add_submenu_page(
+                    'edit.php?post_type=buddyforms',
+                    __( 'Bundle', 'buddyforms' ),
+                    __( 'Go Pro!', 'buddyforms' ),
+                    'manage_options',
+                    'buddyforms_bundle_screen',
+                    'buddyforms_bundle_screen_content',
+                    99
+                );
+            }
         }
 
         /**
@@ -102,7 +120,7 @@ if ( !class_exists( 'BuddyForms' ) ) {
                 /**
                  * Define the install path
                  */
-                define( 'BUDDYFORMS_INSTALL_PATH', dirname( __FILE__ ) . '/' );
+                define( 'BUDDYFORMS_INSTALL_PATH', __DIR__ . '/' );
             }
             if ( !defined( 'BUDDYFORMS_INCLUDES_PATH' ) ) {
                 /**
@@ -361,18 +379,18 @@ if ( !class_exists( 'BuddyForms' ) ) {
          * @since 0.1-beta
          */
         public function includes() {
-            require_once BUDDYFORMS_INSTALL_PATH . '/vendor-scope/buddyforms/vendor/autoload.php';
-            require_once BUDDYFORMS_INCLUDES_PATH . '/resources/pfbc/Encoding.php';
+            require_once BUDDYFORMS_INSTALL_PATH . 'vendor-scope/buddyforms/vendor/autoload.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'resources/pfbc/Encoding.php';
             if ( !function_exists( 'PFBC_Load' ) ) {
-                require_once BUDDYFORMS_INCLUDES_PATH . '/resources/pfbc/Form.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/resources/pfbc/FieldControl.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'resources/pfbc/Form.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'resources/pfbc/FieldControl.php';
                 new FieldControl();
                 $global_error = ErrorHandler::get_instance();
             }
-            require_once BUDDYFORMS_INCLUDES_PATH . '/admin/class-bf-admin-notices.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'admin/class-bf-admin-notices.php';
             new BfAdminNotices();
-            require_once BUDDYFORMS_INCLUDES_PATH . '/admin/register-post-types.php';
-            require_once BUDDYFORMS_INCLUDES_PATH . '/admin/admin-analytics.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'admin/register-post-types.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'admin/admin-analytics.php';
             // Compatibility
             require_once BUDDYFORMS_INCLUDES_PATH . 'compatibility.php';
             require_once BUDDYFORMS_INCLUDES_PATH . 'functions.php';
@@ -394,32 +412,32 @@ if ( !class_exists( 'BuddyForms' ) ) {
             require_once BUDDYFORMS_INCLUDES_PATH . 'form/form-elements.php';
             require_once BUDDYFORMS_INCLUDES_PATH . 'form/form-control.php';
             require_once BUDDYFORMS_INCLUDES_PATH . 'form/form-validation.php';
-            require_once BUDDYFORMS_INCLUDES_PATH . '/admin/user-meta.php';
+            require_once BUDDYFORMS_INCLUDES_PATH . 'admin/user-meta.php';
             if ( is_admin() ) {
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/form-builder-elements.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/form-templates.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/admin-ajax.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/welcome-screen.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/pricing-screen.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/submissions.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/settings.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/password-strengh-settings.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/functions.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/deregister.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/form-builder-elements.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/form-templates.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/admin-ajax.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/pricing-page/pricing-page.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/welcome-screen.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/submissions.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/settings.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/password-strengh-settings.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/functions.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/deregister.php';
                 // GDPR
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/personal-data-exporter.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/personal-data-eraser.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/mce-editor-button.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-mail-notification.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-permissions.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-layout.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-registration.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-shortcodes.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-select-form.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-form-elements.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-form-setup.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-form-header.php';
-                require_once BUDDYFORMS_INCLUDES_PATH . '/admin/form-builder/meta-boxes/metabox-form-footer.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/personal-data-exporter.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/personal-data-eraser.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/mce-editor-button.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-mail-notification.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-permissions.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-layout.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-registration.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-shortcodes.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-select-form.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-form-elements.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-form-setup.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-form-header.php';
+                require_once BUDDYFORMS_INCLUDES_PATH . 'admin/form-builder/meta-boxes/metabox-form-footer.php';
             }
         }
 
@@ -575,7 +593,11 @@ if ( !class_exists( 'BuddyForms' ) ) {
                         'contact'     => true,
                         'addons'      => true,
                         'affiliation' => false,
+                        'pricing'     => false,
                     ),
+                    'bundle_id'                      => '2046',
+                    'bundle_public_key'              => 'pk_ee958df753d34648b465568a836aa',
+                    'has_paid_plans'                 => true,
                     'bundle_license_auto_activation' => true,
                     'is_live'                        => true,
                 ) );

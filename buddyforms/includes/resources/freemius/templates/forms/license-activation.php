@@ -121,6 +121,7 @@ $is_user_change_supported = ( ! $fs->is_addon() || ! $fs->get_parent_instance()-
              */
             afterLicenseUserDataLoaded = function () {
                 if (
+                    false !== otherLicenseOwnerID &&
                     null !== otherLicenseOwnerID &&
                     otherLicenseOwnerID != <?php echo $fs->is_registered() ? $fs->get_user()->id : 'null' ?>
                 ) {
